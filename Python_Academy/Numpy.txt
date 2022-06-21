@@ -1,0 +1,475 @@
+Use this URL to access the tutorial online: https://numpy.org/doc/stable/user/absolute_beginners.html#more-useful-array-operations
+
+NumPy is a faster more compact version of Python lists. It uses less memory and provides a mechanism of specifying data types. 
+
+*WHAT ARE ARRAYS?*
+
+Central data structure in NumPy. Elements are all of the same type, which is referred to as the "dtype"
+
+An array can be indexed by a tuple of nonnegative integers, by booleans, by another array, or by integers. The rank of the array is the number of dimensions. The shape of the array is a tuple of integers giving the size of the array along each dimension.
+
+-> To initialize NumPy arays from Python lists:
+
+a = np.array([1, 2, 3, 4, 5, 6])
+
+-OR-
+
+a = np.array([[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12]])
+
+Index through these arrays like any other array. 
+
+i.e. print(a[0])
+
+Dimensions are called axes, which means that in a 2D array, it looks like so:
+
+[[0., 0., 0.],
+ [1., 1., 1.]]
+
+In this example, the array has two axes. The first axis has a length of two (vertical) and the second axis has a length of 3 (horizontal)
+
+*CREATING BASIC ARRAYS*
+To make an array, use the function np.array() like so:
+
+import numpy as np
+a = np.array([1, 2, 3])
+
+Can make an array chock full of 0s as well. i.e.
+np.zeros(2)
+which returns:
+array([0., 0.])
+
+Or an array filled with 1s!
+
+np.ones(2)
+array([1., 1.])
+
+Or empty arrays. The function "empty" creates an array whose inital content is random and depends on the state of the memory. This is faster than using an array full of 0s, but make sure to fill every element after. For example:
+
+np.empty(2)
+With output:
+array([3.14, 42.  ]) -> The results of this may vary, dependant on state of memory
+
+Can create an array with a range of elements:
+np.arange(4)
+which outputs:
+array([0, 1, 2, 3])
+
+Can also make an array that contains evenly space intervals by specifying the: FIRST NUMBER, LAST NUMBER, and STEP SIZE by doing this:
+
+np.arange(2, 9, 2)
+which outputs:
+array([2, 4, 6, 8])
+
+Can also use np.linspace() to create an array with values that are spaced linearly in a specifed interval:
+np.linspace(0, 10, num=5)
+which outputs:
+array(0., 2.5, 5., 7.5, 10.])
+
+Specifying the data type: The default data type is floating point(np.float64). Can also explicitly specify data types using the "dtype" keyword like so:
+
+x = np.ones(2, dtype=np.int64)
+x
+Which outputs:
+array([1, 1])
+
+*ADDING, REMOVING, AND SORTING ELEMENTS*	
+
+Sort elements with np.sort(). Can specify the axis, kind, and order when you call the function. For example, starting with this array:
+
+arr = np.array([2, 1, 5, 3, 7, 4, 6, 8])
+
+This array can be sorted in ascending order with:
+np.sort(arr)
+which outputs:
+array([1, 2, 3, 4, 5, 6, 7, 8])
+
+In addition to "sort", can also use:
+
+-> argsort: which is an indirect sort along a specified axis
+-> lexsort: which is an inderect stable sort on multiple keys
+-> searchsorted: find elements in a sorted array
+-> partition: which is a partial sort
+
+Concatenation:
+
+Assume starting with the following arrays:
+a = np.array([1, 2, 3, 4])
+b = np.array([5, 6, 7, 8])
+
+Can concatenate them with np.concatenate() like so:
+
+np.concatenate((a, b))
+which outputs:
+array([1, 2, 3, 4, 5, 6, 7, 8])
+
+Or, in a more complex example:
+
+x = np.array([[1, 2], [3, 4]])
+y = np.array([[5, 6]])
+
+Can concatenate via:
+np.concatenate((x, y), axis=0)
+which outputs:
+
+array([[1, 2],
+       [3, 4],
+       [5, 6]])
+
+Can remove elements from an array via indexing.
+
+*SHAPE AND SIZE OF ARRAYS*
+
+-> ndarray.ndim tells number of axes/dimensions of the array
+-> ndarray.size tells the total number of elementss of the array, which is the *product* of the arrays shape.
+-> ndarray.shape displays a tuple of integers that indicate the number of elements stored in each dimension of the array. For example, for a 2D array with 2 rows & 2 columns, the shape of the array is (2, 3)
+
+For example, to create the array:
+
+array_example = np.array([[[0, 1, 2, 3],
+                           [4, 5, 6, 7]],
+
+                           [[0, 1, 2, 3],
+                            [4, 5, 6, 7]],
+
+                           [[0, 1, 2, 3],
+                            [4, 5, 6, 7]]])
+
+To find the number of dimensions in the array:
+array_example.ndim 
+returns: 3
+
+To find the total number of elements in the array:
+array_example.size
+returns: 24
+
+To find the shape of the array:
+array_example.shape
+returns (3, 2, 4)
+
+*RESHAPING ARRAYS*
+To reshape an array, use arr.reshape() to make a new shape without changing the data. Make sure that the new array has the same amount of elements as the original. i.e. the original array has 12 elements, the new array must have 12 elements.
+
+Example of reshaping:
+
+a = np.arange(6)
+print(a)
+returns: [0 1 2 3 4 5]
+
+b = a.reshape(3, 2)
+print(b)
+returns: [[0 1]
+          [2 3]
+          [4 5]]
+
+Can specify a few optional parameters with np.reshape:
+
+np.reshape(a, newshape=(1, 6), order='C')
+returns: ([[0, 1, 2, 3, 4, 5]])
+
+"a" is the array to be reshaped
+
+"newshape" is the new shape you want. An integer or a tuple of integers can be specified. If an integer IS specified, the result will be an array of that length. The shape should be compatible with the original shape.
+
+"order: C" means to read/write the elements using a C-like index order. "F" means to read/write elements in a Fortran-like index order. "A" means to read/write the elements in Fortran-like index order if a is Fortran contiguous in memory - C-like order otherwise. 
+
+*CONVERTING 1D ARRAYS TO 2D - ADDING A NEW AXIS TO AN ARRAY*
+
+Can use np.newaxis and np.expand_dims to increase the dimensions of an existing array 
+
+Using np.newaxis will increase the dimensions of the array by one dimension when used once. This means a 1D array will become a 2D, a 2D would become a 3D, and so forth.
+
+a = np.array([1, 2, 3, 4, 5, 6])
+a.shape
+returns: (6, )
+
+Can use np.newaxis to add a new axis:
+
+a2 = a[np.newaxis, :]
+a2.shape
+returns: (1, 6)
+
+Can explicitly convert a 1D array with either a row vecotr or column vector using np.newaxis. i.e.
+
+row_vector = a[np.newaxis, :]
+row_vector.shape
+returns: (1, 6)
+
+For column vectors:
+col_vector = a[:, np.newaxis]
+col_vector.shape
+returns (6, 1)
+
+Can also expand arrays using np.expand_dims
+
+For example, starting with the following:
+a = np.array([1, 2, 3, 4, 5, 6])
+a.shape
+returns: (6, )
+
+b = np.expand_dims(a, axis=1)
+b.shape
+returns: (6, 1)
+
+Can also add an axi sat index position 0 with 
+c = np.expand_dims(a, axis=0)
+c.shape
+returns: (1, 6)
+
+*INDEXING AND SLICING* 
+
+Can index and slice NumPy arrays the same way Python lists can be sliced
+
+data = np.array([1, 2, 3])
+data[1]
+->2
+
+data[0:2]
+->array([1, 2])
+
+data[1:]
+->array([2, 3])
+data[-2:]
+->array([2, 3])
+
+If you want to select certain values in an array:
+
+If starting with this array:
+
+a = np.array([[1, 2, 3, 4], [5, 6, 7, 8], 9, 10, 11, 12]])
+
+Can easily print all values in the array that are less than 5:
+
+print(a[a < 5])
+-> [1 2 3 4]
+
+Can also use numbers that are >= tp 5 as a condition for indexing arrays
+
+five_up = (a >=5)
+print(a[five_up])
+-> [ 5 6 7 8 9 12 11 12]
+
+Could also grab elements divisible by 2:
+
+divisible_by_2 = a[a%2==0]
+print(divisible_by_2)
+-> [ 2 4 6 8 10 12]
+
+Can also select elements that satisfy two conditions using the & and | operators:
+
+c = a[(a > 2) & ( a < 11)]
+
+Can also use logical operators in order to return boolean values to specify whether or not the values in an array fulfill a certain condition. This is useful for arrays containing names & categorical values.
+
+five_up = (a > 5) | (a == 5)
+print(five_up)
+which returns: 
+
+[[False False False False]
+ [ True  True  True  True]
+ [ True  True  True True]]
+
+Can also use np.nonzero() to print indices of elements that are, for example, less than 5:
+
+b = np.nonzero(a < 5)
+print(b) 
+-> (array([0, 0, 0, 0]), array([0, 1, 2, 3]))
+
+^^ a tuple of arrays was retuned: one for each dimension. The first array represents the column indices where the values are found. The second array represents the column indices where the values are found
+
+To generate a list of coordinates where the elements exist, you can zip the arrays iterate over the list of coordinates, and print them. For example:
+
+list_of_coordinates = list(zip(b[0], b[1]))
+for coord in list_of_coordinates:
+    print(coord)
+(0, 0)
+(0, 1)
+(0, 2)
+(0, 3)
+
+Can use np.nonzero() to print elements in an array that are less than 5 with:
+
+print(a[b]]
+-> [1 2 3 4]
+
+If the element you're looking for doesn't exist in the array then the returned array of indices will be empty. i.e.
+
+not_there = np.nonzero(a==42)
+print(not_there)
+-> (array([], dtype=int64), array([], dtype=int64))
+
+*CREATING AN ARRAY FROM EXISTING DATA*
+
+Can easily make a new array from a section of an existing array. 
+For example:
+
+a = np.array([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
+
+Can create a new array from a section of another array by specifying where to slice the array:
+
+arr1 = a[3:8]
+arr1
+->array([4, 5, 6, 7, 8])
+
+^ grabbed a section of the array from index position 3 through index position 8
+
+Can also stack two existing arrays both vertically and horizontally. i.e.
+
+a1 = np.array([[1, 1],
+               [2, 3]])
+a2 = np.array(([3, 3],
+               [4, 4]])
+
+Can stack them vertically with vstack:
+
+np.vstack((a1, a2))
+
+-> array([[1, 1],
+          [2, 2],
+          [3, 3],
+          [4, 4]])
+
+Or horizontally stack with hstack:
+
+np.hstack((a1, a2))
+-> array([[1, 1, 2, 2],
+          [2, 2, 4, 4]])
+
+Can split an array into several smaller arrays using hsplit. Can specify either the number of equally shaped arrays to return or the columns AFTER which the division should occur
+
+For example:
+x = np.arange(1, 25).reshape(2, 12)
+x
+-> array([[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+          [13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24]])
+
+To split it into three equally shaped arrays:
+
+np.hsplit(x, 3)
+[array([[1, 2, 3, 4],
+        [13, 14, 15, 16]]), array([[5, 6, 7, 8],
+        [17, 18, 19, 20]]), array([[9, 10, 11, 12],
+        [21, 22, 23, 24]])]
+
+To split an array after the third and foruth column, run
+
+np.hsplit(x, (3, 4))
+-> [array([[1, 2, 3],
+           [13, 14, 15]]), array([[ 4],
+           [16]]), array([[ 5, 6, 7, 8, 9, 10, 11, 12],
+           [17, 18, 19, 20, 21, 22, 23, 24]])]
+
+Can use "view" method to create a new array object that looks at the same data as teh original array (i.e a shallow copy) Modifying views also modifies the original array.
+
+Example array:
+a = np.array([[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12]])
+
+Can create an array b1 by slicing a and modify the first element of b1. This will modify the corresponding element in a as well. 
+b1 = a[0, :]
+b1
+-> array([1, 2, 3,4 ])
+b1[0] = 99
+b1
+-> array([99, 2, 3, 4])
+a
+-> array([[99, 2, 3, 4],
+          [5, 6, 7, 8],
+          [9, 10, 11, 12]])
+
+Using the "copy" method will make a complete copy of the array and its data (a deep copy). To use this on an array, run:
+
+b2 = a.copy()
+
+*BASIC ARRAY OPERATIONS*
+
+Can add arrays together:
+data = np.array([1, 2])
+ones = np.ones(2, dtype=int)
+data + ones
+-> array([2, 3])
+
+Can also do:
+data - ones
+->array([0, 1])
+data * data
+->array([1, 4])
+data / data
+array([1, 1.])
+
+Want to find the sum of elements in an array?
+
+a = np.array([1, 2, 3, 4])
+
+a.sum()
+-> 10
+
+To add rows in a 2D array, specify the axis:
+
+b = np.array([[1, 1], [2, 2]])
+
+Can sum over the axis of rows with:
+b.sum(axis = 0)
+->array([3, 3])
+
+Can sum over the axis of columns with:
+b.sum(axis=1)
+-> array([2, 4])
+
+*BROADCASTING*
+
+(Another word for operating between an array and a number) i.e.
+
+data = np.array([1.0, 2.0])
+data * 1.6
+-> array([1.6, 3.2])
+
+If the dimensions of the array are not valid, a ValueError will occur. 
+
+*MORE USEFUL ARRAY OPERATIONS*
+
+NumPy also performs aggregation functions i.e min, max, ssum
+data.max()
+->2.0
+data.min()
+->1.0
+data.sum()
+->3.0
+
+for example, an array, a
+
+a = np.array([[0.45053314, 0.17296777, 0.34376245, 0.5510652],
+
+              [0.54627315, 0.05093587, 0.40067661, 0.55645993],
+
+              [0.12697628, 0.82485143, 0.26590556, 0.56917101]])
+
+a.sum()
+->4.8595784
+
+OR
+
+a.min()
+-> 0.05093587
+
+Can specify on which axis to make the aggregation function to be computed. i.e.
+
+a.min(axis=0)
+-> array([0.12697628, 0.05093587, 0.26590556, 0.5510652 ])
+
+*CREATING MATRICES*
+
+Can pass Python lists of lists to create 2D array (matrix) to represent them in NumPy
+
+data = np.array([[1, 2], [3, 4], [5, 6]])
+
+data
+
+->array([[1, 2],
+         [3, 4],
+         [5, 6]])
+
+Can aggregate matrices the same way as aggregating vectors
+
+NumPy also has a random number generator!
+-> array([0.63696169, 0.26978671, 0.04097352])
+
+
