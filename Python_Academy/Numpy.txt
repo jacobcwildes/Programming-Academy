@@ -472,4 +472,36 @@ Can aggregate matrices the same way as aggregating vectors
 NumPy also has a random number generator!
 -> array([0.63696169, 0.26978671, 0.04097352])
 
+GENERATING RANDOM NUMBERS*
+
+With "Generator.integers" you can generate random integers from low (inclusive with NumPy) to high (exclusive) can set endpoint=True to make the high number inclusive
+
+Generate a 2 x 4 array of random integers between 0 & 4:
+
+rng.integers(5, size = (2, 4))
+-> array(([2, 1, 1, 0],
+          [0, 0, 0, 4]]) -> Numbers will vary (because random)
+
+Can find unique elements in an array with "np.unique"
+
+i.e. a = np.array([11, 11, 12, 13, 14, 15, 16, 17, 12, 13, 11, 14, 18, 19, 20])
+
+unique_values = np.unique(a)
+print(unique_values)
+-> [11 12 13 14 15 16 17 18 19 20]
+
+Can get the index of each unique value:
+
+unique_values, indices_list = np.unique(a, return_index=True)
+print(indices_list)
+-> [ 0 2 3 4 5 6 7 12 13 14] 
+
+Can pass the "return_counts" argument in "np_unique()" along with the array to get the frequency count of unique values in a NumPy array
+
+unique_values, occurrence_count = np.unique(a, return_counts=True)
+print(occurrence_count)
+->[3 2 2 2 1 1 1 1 1 1]
+
+For 2D arrays, if an axis argument isn't passed, the array gets flattened.
+
 
