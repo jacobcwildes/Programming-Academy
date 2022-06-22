@@ -504,4 +504,169 @@ print(occurrence_count)
 
 For 2D arrays, if an axis argument isn't passed, the array gets flattened.
 
+*TRANSPOSING AND RESHAPING MATRICES*
+
+NumPy arrays have the "T" property that allows matrices to be transposed
+
+May need to switch matrices when model expects a different shape than what is in the dataset. This is where "reshape" comes into play. Just pass the new dimensions desired for the matrix. i.e.
+
+data.reshape(2, 3)
+-> array([[1, 2, 3],
+          [4, 5, 6]])
+data.reshape(3, 2)
+-> array([[1, 2],
+          [3, 4],
+          [5, 6]])
+
+Can also use ".transpose()" to reverse/change the axes of an array according to specified values.
+For example, starting with this array:
+
+arr = np.arrange(6).reshape((2, 3))
+arr
+-> array([[0, 1, 2],
+          [3, 4, 5]])
+
+Can transpose array with arr.transpose()
+arr.transpose()
+-> array([[0, 3],
+          [1, 4],
+          [2, 5]])
+
+Can also use arr.T to accomplish the same purpose
+arr.T
+-> array([[0, 3],
+          [1, 4],
+          [2, 5]])
+
+*REVERSING ARRAYS*	
+
+"np.flip()" allows user to flip/reverse the contents of an array along an axis. When using np.flip(), specify the array to be reversed as well as the axis to flip along. If no axis is specified, NumPy reverses contents along all axes of the input array.
+
+Suppose starting with a 1D array like so: 
+
+arr = np.array([1, 2, 3, 4, 5, 6, 7, 8])
+
+It can be reversed like so:
+
+print("Reversed Array: ", np.flip(arr))
+-> Reversed Array: [8 7 6 5 4 3 2 1]
+
+Reversing a 2D Array:
+
+Start with:
+arr_2d = np.array([[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12]])
+
+Can reverse content in all rows and all columns like so:
+
+reversed_arr = np.flip(arr_2d)
+print(reversed_arr)
+-> [[12 11 10 9]
+    [8 7 6 5]
+    [4 3 2 1]]
+
+Can easily reverse ONLY rows with:
+reversed_arr_rows = np.flip(arr_2d, axis=0)
+print(reversed_arr_rows)
+-> [[9 10 11 12]
+    [5 6 7 8]
+    [1 2 3 4]
+
+Or ONLY reverse the columns:
+reversed_arr_columns = np.flip(arr_2d,axis=1)
+print(reversed_arr_columns)
+-> [[4 3 2 1]
+    [8 7 6 5]
+    [12 11 10 9]]
+
+Can also reverse the contents of only one column or one row. i.e.
+
+arr_2d[1] = np.flip(arr_2d[1])
+print(arr_2d)
+-> [[1 2 3 4]
+    [8 7 6 5]
+    [9 10 11 12]]
+
+Can also reverse the column at index position 1 (second column) like so:
+
+arr_2d[:, 1] = np.flip(arr_2d[:, 1])
+print(arr_2d)
+-> [[1 10 2 3]
+    [8 7 6 5]
+    [9 2 11 12]]
+
+*RESHAPING AND FLATTENING MULTIDIMENSIONAL ARRAYS*
+
+There are two ways to flatten an array. ".flatten()" and ".ravel()" Biggest differece is "ravel()" is actually a reference to the parent array, not a copy - much more memory efficient.
+
+Starting with an example:
+x = np.array([[1 , 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12]])
+
+Then use flatten to flatten the array to 1D
+x.flatten()
+-> array([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12])
+
+When using flatten, changes to the new array do not carry over to the parent array. 
+In practice:
+
+a1 = x.flatten()
+a1[0] = 99
+print(x) #The original array
+-> [[1 2 3 4]
+    [5 6 7 8]
+    [9 10 11 12]]
+print(a1) #The new array
+-> [99 2 3 4 5 6 7 8 9 10 11 12]
+
+However, when using ravel, the changes to the new array carry over to the parent:
+
+a2.rvale()
+a2(0) = 98
+print(x) #The original array
+-> [[98 2 3 4]
+    [5 6 7 8]
+    [9 10 11 12]]
+print(a2) #The new array
+-> [98 2 3 4 5 6 7 8 9 10 11 12]
+
+Like regular Python, NumPy has a help() command
+
+This also works for functions the user creates:
+
+def double(a):
+    '''Return a * 2'''
+    return a * 2
+Which then returns information lke so:
+In [2] double?
+
+Signature: double(a)
+Docstring: Return a * 2
+File:      ~/Desktop/<ipython-input-23-b5adf20be596>
+Type:      function
+
+Using a double quesiton makr (??) allows access to the source code
+
+If the object in question is compiled in any other language than Python, it will return the same thing as ?
+
+*SAVING AND LOADING NUMPY OBJECTS*
+
+loadtxt and savetxt functions handle normal text files, load and save functions that handle NumPy binary files with a .npy file extenstion, and savez function that handles NumPy files with a .npz file extension
+
+The .npy and .npz files store data, shape, dtype, and other information required to reconstruct the ndarray in a way that allows the array to be correctly retrieved, even when the file is on another machine with different architecture.
+
+To store a single ndarray object, store it as a .npy file using np.save. To store more than one ndarray object in a single file, save it as a .npz file using np.savez. Can save several arrays into a single compressed npz format with savez_compressed
+
+np.save() is easy to use. Simply specify the array and a file to save it to. For example:
+
+a = np.array([1, 2, 3, 4, 5, 6])
+np.save('filename', a) #Saves array to "filename"
+
+Can use np.load() to reconstruct the array like so:
+b = np.load("filename.npy")
+To check:
+
+print(b)
+-> [1 2 3 4 5 6]
+
+Can dictate either .txt or .csv in savetxt() and loadtxt()
+
 
